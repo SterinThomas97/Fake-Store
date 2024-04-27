@@ -1,16 +1,13 @@
-import { StyleSheet, View, FlatList, Pressable } from "react-native";
+import { StyleSheet, View, FlatList, Pressable, StatusBar, SafeAreaView } from "react-native";
 import Heading from "../components/Heading";
 import { useEffect, useState } from "react";
 import { fetchProducts } from "../model/data";
 import Loading from "../components/Loading";
 import ProductItem from "../components/ProductItem";
 import { useNavigation } from '@react-navigation/native';
-
 import AppButton from "../components/AppButton";
-import { BackButtonService } from "../services/BackButtonService";
 
 const ProductListScreen = ({route}) => {
-    
     const navigation = useNavigation();
     const { category } = route.params;
     const [productItems, setProductItems] = useState([]);
@@ -33,7 +30,7 @@ const ProductListScreen = ({route}) => {
     }
 
     const productItemHandler = ({product}) => {
-        navigation.navigate("ProductDetailScreen", {productItem : product});
+        navigation.navigate("ProductDetailScreen", {productItemId : product.item.id});
     }
     const displayProductItems = (product) => (
         <Pressable onPress={() => productItemHandler({product})}>
@@ -45,7 +42,8 @@ const ProductListScreen = ({route}) => {
          navigation.goBack()
     }
     return (
-        <View style={styles.root}>
+        <SafeAreaView style={styles.root}>
+             <StatusBar backgroundColor="transparent" translucent={true} />
              <Heading title={categoryItem}/>  
              <View style={styles.productList}>
                 <FlatList
@@ -57,7 +55,7 @@ const ProductListScreen = ({route}) => {
              <View style={styles.backButton}>
                 <AppButton icon="backspace" onPress={backButtonHandler} color="white" size={20} title="Back"/>
             </View>  
-        </View>
+        </SafeAreaView>
        
     );
 }

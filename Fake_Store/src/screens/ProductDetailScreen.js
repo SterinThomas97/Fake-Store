@@ -1,35 +1,54 @@
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, SafeAreaView } from "react-native";
 import Heading from "../components/Heading";
 import AppButton from "../components/AppButton";
 import { useNavigation } from '@react-navigation/native';
+import { fetchProduct } from "../model/data";
+import Loading from "../components/Loading";
+import { useState, useEffect } from "react";
 
 function ProductDetailScreen({route}) {
+    const {productItemId} = route.params;
+    const [product, setProduct] = useState({});
+    const [loading, setLoading] = useState(true);
 
-    const {productItem} = route.params;
     const navigation = useNavigation();
 
+    useEffect(() => {
+        const loadProduct = async () => {
+            const data = await fetchProduct(productItemId);
+            setProduct(data)
+            setLoading(false);
+        };   
+        loadProduct();
+    }, []);
+
+    if (loading) {
+        return (
+          <Loading/> 
+        );
+    }
     function backButtonHandler() {
         navigation.goBack()
    }
     return(
-        <View style={styles.productDetail}>
+        <SafeAreaView style={styles.productDetail}>
             <Heading title="Product Details"/>
             <View style={styles.mainContainer}>
                 <View style={styles.imageContainer}>
-                        <Image source={{uri: productItem.item.image}} style={styles.image} />
+                        <Image source={{uri: product.image}} style={styles.image} />
                 </View>
                 <View style={styles.titleContainer}>
-                        <Text style={styles.titleText}>{productItem.item.title}</Text>
+                        <Text style={styles.titleText}>{product.title}</Text>
                 </View>
                 <View style={styles.valueContainer}>
                         <View>
-                            <Text style={styles.valueColor}>Rate: {productItem.item.rating.rate}</Text>
+                            <Text style={styles.valueColor}>Rate: {product.rating.rate}</Text>
                         </View>
                         <View>
-                            <Text style={styles.valueColor}>Sold: {productItem.item.rating.count}</Text>
+                            <Text style={styles.valueColor}>Sold: {product.rating.count}</Text>
                         </View>
                         <View>
-                            <Text style={styles.valueColor}>Price : ${productItem.item.price}</Text>
+                            <Text style={styles.valueColor}>Price : ${product.price}</Text>
                         </View>
                 </View>
                 <View style={styles.buttonContainer}>
@@ -44,14 +63,14 @@ function ProductDetailScreen({route}) {
                         <View style={styles.descriptionContainer}>
                             <Text style={styles.description}>Description:</Text>
                         </View>
-                        <View style={styles.descriptionBox}>
-                            <Text style={styles.descriptionContent}>{productItem.item.description}</Text>
+                        <View style={styles.descriptionBox}> 
+                            <Text style={styles.descriptionContent}>{product.description}</Text>
                         </View>
                 </View>
             </View>  
             
 
-        </View>
+        </SafeAreaView>
     )
 }
 
@@ -81,9 +100,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly'
     },
     imageContainer: {
-        
         margin:15
-       
     },
     productDetail: {
         flex: 1

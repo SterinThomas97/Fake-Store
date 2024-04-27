@@ -18,10 +18,22 @@ export async function fetchProducts(categoryItem) {
       if (!response.ok) {
          throw new Error('Failed to fetch products'); 
       }
-      
       const data = await response.json();
       return data;
     } catch (error) {
       console.error('Error fetching products:', error);
     }
+}
+
+export async function fetchProduct(id) {
+  try {
+    const response = await fetch(`https://fakestoreapi.com/products/${id}`)
+    if (!response.ok) {
+      throw new Error("Failed to fetch the product");
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching the product:', error);
+  }
 }

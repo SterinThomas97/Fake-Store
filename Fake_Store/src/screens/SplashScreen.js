@@ -3,9 +3,7 @@ import { View, Text, StyleSheet, Image, Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 function SplashScreen() {
-
     const navigation = useNavigation();
-
     useEffect(() => {
         setTimeout(() => {
             navigation.navigate("CategoryScreen");
@@ -19,7 +17,6 @@ function SplashScreen() {
             />
         </View>
     )
-
 } 
 
 export default SplashScreen; 

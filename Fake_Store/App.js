@@ -16,9 +16,15 @@ export default function App() {
         <Stack.Screen name="SplashScreen" component={SplashScreen} options={{
           headerShown: false
         }}/>
-        <Stack.Screen name="CategoryScreen" component={CategoryScreen} />
-        <Stack.Screen name="ProductListScreen" component={ProductListScreen} />
-        <Stack.Screen name="ProductDetailScreen" component={ProductDetailScreen}/>
+        <Stack.Screen name="CategoryScreen" component={CategoryScreen} options={{
+          headerShown: false
+        }}/>
+        <Stack.Screen name="ProductListScreen" component={ProductListScreen} options={{
+          headerShown: false
+        }}/>
+        <Stack.Screen name="ProductDetailScreen" component={ProductDetailScreen} options={{
+          headerShown: false
+        }}/>
 
       </Stack.Navigator>
     </NavigationContainer>

@@ -1,4 +1,4 @@
-import { View, Text, FlatList, StyleSheet, Pressable } from "react-native";
+import { View, Text, FlatList, StyleSheet, Pressable, SafeAreaView } from "react-native";
 import { useState, useEffect } from "react";
 import { fetchCategories } from "../model/data";
 import Loading from "../components/Loading";
@@ -17,7 +17,6 @@ function CategoryScreen() {
             setCategories(data);
             setLoading(false);
         };   
-
         loadCategories();
     }, []);
 
@@ -28,7 +27,6 @@ function CategoryScreen() {
     }
     
     function categoryHandler(item) {
-      console.log(item);
       navigation.navigate("ProductListScreen", {category : item});
     }
 
@@ -41,18 +39,12 @@ function CategoryScreen() {
             </View>
           )
         } 
-        
       </Pressable>
-      
     );
 
     return (
-      
-        <View style={styles.container}>
-          
+        <SafeAreaView style={styles.container}>
           <Heading title="Categories"/>
-          
-          
           <View style={styles.categoryList}>
             <FlatList
                   data={categories}
@@ -60,9 +52,7 @@ function CategoryScreen() {
                   keyExtractor={(category) => category}
                 />
           </View>
-            
-          
-        </View>
+        </SafeAreaView>
       );
 }
 
@@ -95,10 +85,9 @@ const styles = StyleSheet.create({
         shadowRadius: 10,
         overflow: 'hidden'
       },
-      
+
       category: {
         fontSize: 18,
-        
         fontWeight:'400'
       },
 })

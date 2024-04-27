@@ -14,7 +14,6 @@ const styles = StyleSheet.create({
     headingContainer: {
         margin: 20,
         flex: 0.1,
-        
         borderColor: 'black',
         borderWidth: 1,
         backgroundColor: 'blue',
