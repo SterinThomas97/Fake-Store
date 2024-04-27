@@ -1,17 +1,18 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator} from '@react-navigation/native-stack';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import SplashScreen from './src/screens/SplashScreen';
 import CategoryScreen from './src/screens/CategoryScreen';
 import ProductListScreen from './src/screens/ProductListScreen';
 import ProductDetailScreen from './src/screens/ProductDetailScreen';
+import colors from './src/constants/Colors';
 
 const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{
-            contentStyle: { backgroundColor: '#e9eff5' },
+            contentStyle: { backgroundColor: colors.appBackgroundColour },
           }}>
         <Stack.Screen name="SplashScreen" component={SplashScreen} options={{
           headerShown: false

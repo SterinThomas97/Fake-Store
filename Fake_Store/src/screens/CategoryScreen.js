@@ -4,6 +4,7 @@ import { fetchCategories } from "../model/data";
 import Loading from "../components/Loading";
 import Heading from "../components/Heading";
 import { useNavigation } from '@react-navigation/native';
+import colors from "../constants/Colors";
 
 function CategoryScreen() {
     const [categories, setCategories] = useState([]);
@@ -75,11 +76,11 @@ const styles = StyleSheet.create({
        alignItems: 'center',
         marginBottom:60,
         marginHorizontal:25,
-        borderColor: 'black',
+        borderColor: colors.borderColor,
         borderWidth: 1,
-        backgroundColor: '#edeff2',
+        backgroundColor: colors.categoryContainerColour,
         borderRadius: 10,
-        shadowColor: 'black',
+        shadowColor: colors.shadowColor,
         shadowOpacity: 0.25,
         shadowOffset: {width : 0, height : 2},
         shadowRadius: 10,

@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { fetchProduct } from "../model/data";
 import Loading from "../components/Loading";
 import { useState, useEffect } from "react";
+import colors from "../constants/Colors";
 
 function ProductDetailScreen({route}) {
     const {productItemId} = route.params;
@@ -86,17 +87,17 @@ const styles = StyleSheet.create({
         width: 400,
         height: 200,
         borderWidth:1,
-        borderColor: 'black'
+        borderColor: colors.borderColor
     },
     valueColor:{
-        color:'white',
+        color: colors.valueColor,
         margin: 10,
         fontWeight: 'bold'
     },
     valueContainer:{
         margin:15,
         flexDirection: 'row',
-        backgroundColor: '#6face8',
+        backgroundColor: colors.valueContainerColor,
         justifyContent: 'space-evenly'
     },
     imageContainer: {
@@ -114,7 +115,7 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     button: {
-        backgroundColor: '#208bf5',
+        backgroundColor: colors.backButtonBackgroundColour,
         padding: 10,
         borderRadius: 8
     },
@@ -132,7 +133,7 @@ const styles = StyleSheet.create({
         margin: 15
     },
     descriptionBox: {
-        backgroundColor: 'white',
+        backgroundColor: colors.descriptionBoxColor,
         marginHorizontal: 15,
     },
     descriptionContent: {

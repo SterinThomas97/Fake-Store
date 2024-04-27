@@ -6,6 +6,7 @@ import Loading from "../components/Loading";
 import ProductItem from "../components/ProductItem";
 import { useNavigation } from '@react-navigation/native';
 import AppButton from "../components/AppButton";
+import colors from "../constants/Colors";
 
 const ProductListScreen = ({route}) => {
     const navigation = useNavigation();
@@ -75,7 +76,7 @@ const styles = StyleSheet.create({
       },
       backButton: {
         flex : 0.035,
-        backgroundColor: '#208bf5',
+        backgroundColor: colors.backButtonBackgroundColour,
         padding: 5,
         marginHorizontal: 170,
         marginBottom: 40,
@@ -85,7 +86,7 @@ const styles = StyleSheet.create({
         flex : 1,
         marginBottom: 5,
         marginTop: 1,
-        borderBottomColor: 'black',
+        borderBottomColor: colors.borderBottomColor,
         borderBottomWidth: 1
       }
       
