@@ -1,4 +1,4 @@
-import { View, Text, FlatList, ActivityIndicator, StyleSheet, Pressable } from "react-native";
+import { View, Text, FlatList, StyleSheet, Pressable } from "react-native";
 import { useState, useEffect } from "react";
 import { fetchCategories } from "../model/data";
 import Loading from "../components/Loading";
@@ -28,7 +28,7 @@ function CategoryScreen() {
     }
     
     function categoryHandler(item) {
-      console.log("before",item);
+      console.log(item);
       navigation.navigate("ProductListScreen", {category : item});
     }
 
@@ -49,13 +49,18 @@ function CategoryScreen() {
     return (
       
         <View style={styles.container}>
+          
           <Heading title="Categories"/>
           
+          
+          <View style={styles.categoryList}>
             <FlatList
-                data={categories}
-                renderItem={display}
-                keyExtractor={(category) => category}
-              />
+                  data={categories}
+                  renderItem={display}
+                  keyExtractor={(category) => category}
+                />
+          </View>
+            
           
         </View>
       );
@@ -66,42 +71,31 @@ export default CategoryScreen;
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'white',
+       flex: 1,
       },
-      headingContainer: {
-        marginTop: 90,
-        paddingHorizontal: 140,
-        paddingVertical: 20,
-        borderColor: 'black',
-        borderWidth: 1,
-        backgroundColor: 'blue',
-      }, 
-      heading: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: 'white'
-      },
+    categoryList: {
+      flex : 1,
+      marginBottom: 5,
+      marginTop: 20,
+      borderBottomColor: 'black',
+      borderBottomWidth: 1
+    },
       categoryContainer: {
-        marginBottom: 5,
-        paddingHorizontal:130,
-        paddingVertical: 18,
-        marginTop: 25,
-        marginBottom: 75,
+       padding:20,
+       alignItems: 'center',
+        marginBottom:60,
         marginHorizontal:25,
         borderColor: 'black',
         borderWidth: 1,
         backgroundColor: '#edeff2',
         borderRadius: 10,
-        elevation: 4,
         shadowColor: 'black',
         shadowOpacity: 0.25,
         shadowOffset: {width : 0, height : 2},
         shadowRadius: 10,
-       
+        overflow: 'hidden'
       },
+      
       category: {
         fontSize: 18,
         

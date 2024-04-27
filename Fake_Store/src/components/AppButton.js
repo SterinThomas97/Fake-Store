@@ -1,25 +1,21 @@
 import { StyleSheet, View, Text, Pressable } from "react-native";
 import {Ionicons} from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
 
-function BackButton() {
-    const navigation = useNavigation();
+function AppButton({icon, onPress, color, size, title}) {
+
     
-    function backButtonHandler() {
-        navigation.goBack()
-    }
 
     return(
-        <Pressable  onPress={backButtonHandler} style={({pressed}) => [pressed && styles.pressed]}>
+        <Pressable  onPress={onPress} style={({pressed}) => [pressed && styles.pressed]}>
                     <View style={styles.iconButtonContainer}>
-                        <Ionicons name="backspace" size={20} color="white" />
-                        <Text style={styles.backButtonText}>Back</Text>
+                        <Ionicons name={icon} size={size} color={color} />
+                        <Text style={styles.backButtonText}>{title}</Text>
                     </View>
         </Pressable>
     )
 }
 
-export default BackButton;
+export default AppButton;
 
 const styles = StyleSheet.create({
     iconButtonContainer: {
@@ -29,9 +25,13 @@ const styles = StyleSheet.create({
     },
     backButtonText: {
         color: 'white',
-        marginLeft: 5
+        marginLeft: 5,
+        fontWeight: 'bold'
     },
     pressed: {
         opacity: 0.5
     }
 })
+
+
+

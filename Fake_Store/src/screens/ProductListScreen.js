@@ -1,13 +1,17 @@
-import { StyleSheet, Text, View, FlatList, Image } from "react-native";
+import { StyleSheet, View, FlatList, Pressable } from "react-native";
 import Heading from "../components/Heading";
 import { useEffect, useState } from "react";
 import { fetchProducts } from "../model/data";
 import Loading from "../components/Loading";
-import BackButton from "../components/BackButton";
 import ProductItem from "../components/ProductItem";
+import { useNavigation } from '@react-navigation/native';
+
+import AppButton from "../components/AppButton";
+import { BackButtonService } from "../services/BackButtonService";
 
 const ProductListScreen = ({route}) => {
     
+    const navigation = useNavigation();
     const { category } = route.params;
     const [productItems, setProductItems] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -28,23 +32,30 @@ const ProductListScreen = ({route}) => {
         );
     }
 
+    const productItemHandler = ({product}) => {
+        navigation.navigate("ProductDetailScreen", {productItem : product});
+    }
     const displayProductItems = (product) => (
-        <ProductItem product={product} />
+        <Pressable onPress={() => productItemHandler({product})}>
+            <ProductItem product={product} />
+        </Pressable>
     )
 
-    
+    function backButtonHandler() {
+         navigation.goBack()
+    }
     return (
         <View style={styles.root}>
              <Heading title={categoryItem}/>  
              <View style={styles.productList}>
                 <FlatList
-                    data={productItems}
+                    data={productItems} 
                     renderItem={displayProductItems}
                     keyExtractor={(product) => product.id.toString()}
                 />
              </View>
              <View style={styles.backButton}>
-                <BackButton />
+                <AppButton icon="backspace" onPress={backButtonHandler} color="white" size={20} title="Back"/>
             </View>  
         </View>
        
@@ -66,7 +77,7 @@ const styles = StyleSheet.create({
       },
       backButton: {
         flex : 0.035,
-        backgroundColor: 'blue',
+        backgroundColor: '#208bf5',
         padding: 5,
         marginHorizontal: 170,
         marginBottom: 40,
