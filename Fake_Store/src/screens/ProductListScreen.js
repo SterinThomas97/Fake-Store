@@ -56,7 +56,9 @@ const ProductListScreen = ({route}) => {
              <View style={styles.backButton}>
                 <AppButton icon="backspace" onPress={backButtonHandler} color="white" size={20} title="Back"/>
             </View>  
+            
         </SafeAreaView>
+        
        
     );
 }

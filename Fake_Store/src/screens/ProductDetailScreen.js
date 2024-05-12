@@ -70,7 +70,6 @@ function ProductDetailScreen({route}) {
                 </View>
             </View>  
             
-
         </SafeAreaView>
     )
 }

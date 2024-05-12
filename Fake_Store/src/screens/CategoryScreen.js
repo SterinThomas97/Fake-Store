@@ -53,6 +53,8 @@ function CategoryScreen() {
                   keyExtractor={(category) => category}
                 />
           </View>
+
+        
         </SafeAreaView>
       );
 }
