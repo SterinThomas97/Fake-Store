@@ -6,8 +6,12 @@ import { fetchProduct } from "../model/data";
 import Loading from "../components/Loading";
 import { useState, useEffect } from "react";
 import colors from "../constants/Colors";
+import { Provider, useDispatch } from 'react-redux';
+import { addToCart } from "../cart/cartSlice";
+import store from "../cart/store";
 
 function ProductDetailScreen({route}) {
+    const dispatch = useDispatch();
     const {productItemId} = route.params;
     const [product, setProduct] = useState({});
     const [loading, setLoading] = useState(true);
@@ -30,6 +34,11 @@ function ProductDetailScreen({route}) {
     }
     function backButtonHandler() {
         navigation.goBack()
+   }
+   
+   const handleAddToCartPress = () => {
+        console.log(product);
+        dispatch(addToCart(product));
    }
     return(
         <SafeAreaView style={styles.productDetail}>
@@ -57,7 +66,7 @@ function ProductDetailScreen({route}) {
                             <AppButton icon="backspace" onPress={backButtonHandler} color="white" size={20} title="Back"/>
                         </View>
                         <View style={styles.button}>
-                            <AppButton icon="cart"  color="white" size={20} title="Add to Cart"/>
+                            <AppButton icon="cart"  onPress={handleAddToCartPress} color="white" size={20} title="Add to Cart"/>
                         </View>
                 </View>
                 <View>

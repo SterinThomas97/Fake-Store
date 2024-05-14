@@ -1,24 +1,27 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { StyleSheet, View } from 'react-native';
-import MainStackNavigator from './src/navigators/MainStackNavigator';
 import TabNavigator from './src/navigators/TabNavigator';
+import { Provider } from 'react-redux';
+import store from './src/cart/store';
 
 
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <View style={styles.container}>
-        {/* <MainStackNavigator/>   */}
-        <TabNavigator/> 
-      </View>
-    </NavigationContainer>
+    <Provider store={store}>
+        <NavigationContainer>
+        <View style={styles.container}>
+          {/* <MainStackNavigator/>   */}
+          <TabNavigator/> 
+        </View>
+      </NavigationContainer>
+    </Provider>  
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1
   }
 
 });
