@@ -2,29 +2,29 @@ import { View, Text, FlatList, SafeAreaView, StyleSheet, Image } from "react-nat
 import { useSelector } from 'react-redux';
 import AppButton from "../components/AppButton";
 import { useDispatch } from 'react-redux';
-import { increment, decrement} from '../cart/cartSlice';
+import { increment, decrement, removeFromCart} from '../cart/cartSlice';
 import Heading from "../components/Heading";
+import colors from "../constants/Colors";
 
 function ShoppingCartScreen() {
     const cartItems = useSelector(state =>state.cart.shoppingCartItems);
     const totalNumberOfItems = useSelector(state => state.cart.numberOfItems);
     const totalPrice = useSelector(state => state.cart.totalPrice);
-    console.log("Total Number of items", totalNumberOfItems);
     const dispatch = useDispatch();
-    console.log("cartItems",cartItems);
 
     const handleDecrement = (item) => {
-        console.log("Decrement id",item.product.id)
-        dispatch(decrement(item));
+        if(item.quantity > 1) {
+            dispatch(decrement(item));
+        } else {
+            dispatch(removeFromCart(item))
+        }
     }
 
     const handleIncrement = (item) => {
-        console.log("Increment id",item.product.id)
         dispatch(increment(item));
     }
 
     const renderItem = ({item} ) => (
-        //console.log("item",item);
         <View style={styles.productContainer}>
                 <View style={styles.productImageContainer}>
                     <Image source={{uri: item.product.image}} style={styles.image}/>
@@ -72,7 +72,9 @@ function ShoppingCartScreen() {
                     keyExtractor={item => item.product.id.toString()}
                 />
             ) : (
-            <Text>Your shopping cart is empty.</Text>
+                <View style={styles.cartEmpty}>
+                    <Text style={styles.cartEmptyText}>Your cart is empty!</Text>
+                </View>
         )}
             </View>
         </SafeAreaView>
@@ -82,6 +84,14 @@ function ShoppingCartScreen() {
 export default ShoppingCartScreen;
 
 const styles = StyleSheet.create({
+    cartEmptyText:{
+        fontSize: 25
+    },
+    cartEmpty: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
     productList: {
         flex : 1,
         marginBottom: 5,
@@ -91,7 +101,7 @@ const styles = StyleSheet.create({
     },
     valueHeading: {
         flexDirection: 'row',
-        backgroundColor: '#0b90e3',
+        backgroundColor: colors.valueHeadingColor,
         justifyContent: 'space-between',
         marginHorizontal: 20,
         borderColor: 'black',

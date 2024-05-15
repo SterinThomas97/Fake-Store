@@ -9,8 +9,8 @@ const colors = {
     valueContainerColor: '#6face8',
     descriptionBoxColor: 'white',
     categoryContainerColour: '#edeff2',
-    shadowColor: 'black'
-   
+    shadowColor: 'black',
+    valueHeadingColor: '#0b90e3'
 };
 
 export default colors;

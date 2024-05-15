@@ -6,9 +6,8 @@ import { fetchProduct } from "../model/data";
 import Loading from "../components/Loading";
 import { useState, useEffect } from "react";
 import colors from "../constants/Colors";
-import { Provider, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { addToCart } from "../cart/cartSlice";
-import store from "../cart/store";
 
 function ProductDetailScreen({route}) {
     const dispatch = useDispatch();
@@ -37,7 +36,6 @@ function ProductDetailScreen({route}) {
    }
    
    const handleAddToCartPress = () => {
-        console.log(product);
         dispatch(addToCart(product));
    }
     return(
