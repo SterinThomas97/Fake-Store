@@ -24,8 +24,10 @@ const TabNavigator = () => {
       }
       })}
       >
-      <Tab.Screen name="Products" component={MainStackNavigator} />
-      <Tab.Screen name="My Cart" component={ShoppingCartScreen} options={{tabBarBadge: numberOfItems > 0 ? numberOfItems : null}}/>
+      <Tab.Screen name="Products" component={MainStackNavigator} options={{
+          headerShown: false
+        }} />
+      <Tab.Screen name="My Cart" component={ShoppingCartScreen} options={{headerShown: false, tabBarBadge: numberOfItems > 0 ? numberOfItems : null}}/>
       
     </Tab.Navigator>
   );

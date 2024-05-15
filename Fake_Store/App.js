@@ -11,7 +11,6 @@ export default function App() {
     <Provider store={store}>
         <NavigationContainer>
         <View style={styles.container}>
-          {/* <MainStackNavigator/>   */}
           <TabNavigator/> 
         </View>
       </NavigationContainer>
