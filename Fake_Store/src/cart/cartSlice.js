@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
+import { updateCart } from '../service/cartService';
 
 const initialState = {
     shoppingCartItems: [],
@@ -12,43 +13,63 @@ const cartSlice = createSlice({
     reducers: {
         addToCart: (state, action) => {
             const {id} = action.payload;
-            const item = state.shoppingCartItems.find(item => item.product.id === id);
+            const item = state.shoppingCartItems.find(item => item.id === id);
             if (item) {
-                item.quantity += 1;
-                state.totalPrice =  state.totalPrice + item.product.price;
+                item.count += 1;
+                state.totalPrice =  state.totalPrice + item.price;
+                updateCart(state.shoppingCartItems);
             } else {
-                state.shoppingCartItems.push({product: action.payload, quantity : 1});
                 state.totalPrice =  state.totalPrice + action.payload.price;
+                state.shoppingCartItems.push({id: action.payload.id, price: action.payload.price, count: 1, title: action.payload.title, image: action.payload.image});
+                console.log("inside addToCart ",state.shoppingCartItems)
+                updateCart(state.shoppingCartItems)
             }
             state.numberOfItems++;
             
         },
         increment: (state, action) => {
-            const id = action.payload.product.id;
-            const item = state.shoppingCartItems.find(item => item.product.id === id);
+            const id = action.payload.id;
+            const item = state.shoppingCartItems.find(item => item.id === id);
+            console.log("Incremernt", item)
             if (item) {
-                item.quantity += 1;
-                state.totalPrice = state.totalPrice + item.product.price;
+                item.count += 1;
+                state.totalPrice = state.totalPrice + item.price;
                 state.numberOfItems++;
             }
+            updateCart(state.shoppingCartItems);
             
         },
         decrement: (state, action) => {
-            const id = action.payload.product.id;
-            const item = state.shoppingCartItems.find(item => item.product.id === id);
+            const id = action.payload.id;
+            const item = state.shoppingCartItems.find(item => item.id === id);
             if (item) {
-                item.quantity -= 1;
+                item.count -= 1;
                 state.numberOfItems--;
-                state.totalPrice = state.totalPrice - item.product.price;
+                state.totalPrice = state.totalPrice - item.price;
             }
+            console.log("Inside decrement ", item);
+            updateCart(state.shoppingCartItems);
+            
         },
         removeFromCart: (state, action) => {
-            state.shoppingCartItems = state.shoppingCartItems.filter(item => item.product.id !== action.payload.product.id);
-            state.totalPrice = state.totalPrice - action.payload.product.price;
+            state.shoppingCartItems = state.shoppingCartItems.filter(item => item.id !== action.payload.id);
+            state.totalPrice = state.totalPrice - action.payload.price;
             state.numberOfItems--;
+            updateCart(state.shoppingCartItems);
+        },
+        setShoppingCartItems: (state, action) => {
+            console.log("Inside setShoppingCartItems()")
+            state.shoppingCartItems = action.payload;
+        },
+        setTotalPriceAndNumOfItems: (state, action) => {
+            console.log("Inside setTotalPriceAndNumOfItems()")
+            action.payload.forEach(item => {
+                state.totalPrice += (item.price * item.count);
+                state.numberOfItems += item.count;
+            });
         }
     },
 });
 
-export const { addToCart, increment, decrement, removeFromCart } = cartSlice.actions;
+export const { addToCart, increment, decrement, removeFromCart, setShoppingCartItems, setTotalPriceAndNumOfItems} = cartSlice.actions;
 export default cartSlice.reducer; 

@@ -2,18 +2,35 @@ import { View, Text, FlatList, SafeAreaView, StyleSheet, Image } from "react-nat
 import { useSelector } from 'react-redux';
 import AppButton from "../components/AppButton";
 import { useDispatch } from 'react-redux';
-import { increment, decrement, removeFromCart} from '../cart/cartSlice';
+import { increment, decrement, removeFromCart, setShoppingCartItems, setTotalPriceAndNumOfItems} from '../cart/cartSlice';
 import Heading from "../components/Heading";
 import colors from "../constants/Colors";
+import { useEffect } from "react";
+import { getCartItems } from "../service/cartService";
 
 function ShoppingCartScreen() {
+    const dispatch = useDispatch();
+    const setStateValues = (cartItems) => {
+        dispatch(setShoppingCartItems(cartItems));
+        dispatch(setTotalPriceAndNumOfItems(cartItems));
+    }
+    useEffect(() => {
+        const getCartData = async() => {
+            const result = await getCartItems();
+            if (result && result.length > 0) {
+                console.log("Inside getCartData useEffect()",result)
+                setStateValues(result);
+            }
+        } 
+       getCartData();
+    },[]);
+
     const cartItems = useSelector(state =>state.cart.shoppingCartItems);
     const totalNumberOfItems = useSelector(state => state.cart.numberOfItems);
     const totalPrice = useSelector(state => state.cart.totalPrice);
-    const dispatch = useDispatch();
-
+    
     const handleDecrement = (item) => {
-        if(item.quantity > 1) {
+        if(item.count > 1) {
             dispatch(decrement(item));
         } else {
             dispatch(removeFromCart(item))
@@ -27,21 +44,21 @@ function ShoppingCartScreen() {
     const renderItem = ({item} ) => (
         <View style={styles.productContainer}>
                 <View style={styles.productImageContainer}>
-                    <Image source={{uri: item.product.image}} style={styles.image}/>
+                    <Image source={{uri: item.image}} style={styles.image}/>
                 </View>
                 <View style={styles.productDetails}>
                     <View style={styles.productTitle}>
-                        <Text>{item.product.title}</Text>
+                        <Text>{item.title}</Text>
                     </View>
                     <View>
-                        <Text>Price: ${item.product.price}</Text>
+                        <Text>Price: ${item.price}</Text>
                     </View>
                     <View style={styles.iconRow}>
                         <View>
                             <AppButton onPress={() => handleIncrement(item)} icon="add-circle" color="green" size={20}/>
                         </View>
                         <View>
-                            <Text>Quantity: {item.quantity}</Text>
+                            <Text>Quantity: {item.count}</Text>
                         </View>
                         <View>
                             <AppButton onPress={() => handleDecrement(item)} icon="remove-circle" color="green" size={20}/>
@@ -66,19 +83,25 @@ function ShoppingCartScreen() {
             </View>
             <View style={styles.productList}>
                 {cartItems.length > 0 ? (
-                <FlatList
+                <View>
+                    <FlatList
                     data={cartItems}
                     renderItem={renderItem}
-                    keyExtractor={item => item.product.id.toString()}
-                />
-            ) : (
+                    keyExtractor={item => item.id.toString()}
+                    /> 
+                </View>
+                ) : (
                 <View style={styles.cartEmpty}>
                     <Text style={styles.cartEmptyText}>Your cart is empty!</Text>
                 </View>
-        )}
+                )}
+                {cartItems.length > 0 ? (<View style={styles.buttonContainer}>
+                    <View style={styles.button}>
+                        <AppButton icon="wallet"  color="white" size={20} title="Check Out"/>
+                    </View>
+                </View>):""}
             </View>
         </SafeAreaView>
-   
     ) 
 } 
 export default ShoppingCartScreen;
@@ -97,7 +120,8 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         marginTop: 1,
         borderBottomColor: 'black',
-        borderBottomWidth: 1
+       
+        justifyContent: 'space-between'
     },
     valueHeading: {
         flexDirection: 'row',
@@ -145,5 +169,15 @@ const styles = StyleSheet.create({
     iconRow: {
         flexDirection: 'row',
         justifyContent: 'space-between'
-    }
+    },
+    button: {
+        backgroundColor: colors.backButtonBackgroundColour,
+        padding: 10,
+        borderRadius: 8
+    },
+    buttonContainer: {
+        
+        alignItems:'center',
+        
+    },
 })

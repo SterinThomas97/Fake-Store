@@ -36,6 +36,7 @@ function ProductDetailScreen({route}) {
    }
    
    const handleAddToCartPress = () => {
+        console.log("Inside handleAddToCartPress() ", product)
         dispatch(addToCart(product));
    }
     return(
