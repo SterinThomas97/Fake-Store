@@ -1,7 +1,9 @@
+import { useSelector } from "react-redux";
+
 const server = 'localhost';
 const port = 3000;
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjI2LCJpYXQiOjE3MTY5MTI2MzcsImV4cCI6MTcxNjkxNjIzN30.lqTMcB73YjgSDDfNjpA8FHC38MtIsVlqjz9pGpt_CPc";
-export const updateCart = async(items) => {
+
+export const updateCart = async(token,items) => {
     console.log(items);
     const url = `http://${server}:${port}/cart`;
     const cartItems = {items};
@@ -17,14 +19,14 @@ export const updateCart = async(items) => {
             body: JSON.stringify(cartItems)
         });
         const data = await res.json();
-        //console.log(data);
+        console.log("updateCart",data);
         return data;
     } catch (error) {
         throw new Error("Failed to update the cart: " + error);
     }
 }
 
-export const getCartItems = async() => {
+export const getCartItems = async(token) => {
     const url = `http://${server}:${port}/cart`;
     try {
         const res = await fetch(url, {

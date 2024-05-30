@@ -5,6 +5,9 @@ import SplashScreen from '../screens/SplashScreen';
 import CategoryScreen from '../screens/CategoryScreen';
 import ProductListScreen from '../screens/ProductListScreen';
 import ProductDetailScreen from '../screens/ProductDetailScreen';
+import SignInScreen from '../components/SignInScreen';
+import SignUpScreen from '../components/SignUpScreen';
+import UserProfileScreen from '../screens/UserProfileScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -12,9 +15,9 @@ const MainStackNavigator = () => {
   return (
     <Stack.Navigator initialRouteName="CategoryScreen"> 
       
-       <Stack.Screen name="Home" component={SplashScreen} options={{
+       {/* <Stack.Screen name="Home" component={SplashScreen} options={{
           headerShown: false
-        }}/>
+        }}/>  */}
         <Stack.Screen name="CategoryScreen" component={CategoryScreen} options={{
           headerShown: false
         }}/>
@@ -24,6 +27,12 @@ const MainStackNavigator = () => {
         <Stack.Screen name="ProductDetailScreen" component={ProductDetailScreen} options={{
           headerShown: false
         }}/>
+        <Stack.Screen name="UserProfileScreen" component={UserProfileScreen} options={{
+          headerShown: false
+        }}/>
+       
+        {/* <Stack.Screen name="SignIn" component={SignInScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="SignUp" component={SignUpScreen} options={{ headerShown: false }} /> */}
        
          
     </Stack.Navigator>

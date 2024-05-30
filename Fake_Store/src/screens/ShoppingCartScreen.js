@@ -2,43 +2,61 @@ import { View, Text, FlatList, SafeAreaView, StyleSheet, Image } from "react-nat
 import { useSelector } from 'react-redux';
 import AppButton from "../components/AppButton";
 import { useDispatch } from 'react-redux';
-import { increment, decrement, removeFromCart, setShoppingCartItems, setTotalPriceAndNumOfItems} from '../cart/cartSlice';
+import { increment, decrement, removeFromCart, setShoppingCartItems, setTotalPriceAndNumOfItems, updateOrders} from '../cart/cartSlice';
 import Heading from "../components/Heading";
 import colors from "../constants/Colors";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getCartItems } from "../service/cartService";
 
 function ShoppingCartScreen() {
-    const dispatch = useDispatch();
-    const setStateValues = (cartItems) => {
-        dispatch(setShoppingCartItems(cartItems));
-        dispatch(setTotalPriceAndNumOfItems(cartItems));
-    }
-    useEffect(() => {
-        const getCartData = async() => {
-            const result = await getCartItems();
-            if (result && result.length > 0) {
-                console.log("Inside getCartData useEffect()",result)
-                setStateValues(result);
-            }
-        } 
-       getCartData();
-    },[]);
-
+    const token = useSelector(state => state.auth.authenticationKey);
     const cartItems = useSelector(state =>state.cart.shoppingCartItems);
     const totalNumberOfItems = useSelector(state => state.cart.numberOfItems);
     const totalPrice = useSelector(state => state.cart.totalPrice);
+    const dispatch = useDispatch();
+    // const setStateValues = (cartItems) => {
+    //     dispatch(setShoppingCartItems(cartItems));
+    //     dispatch(setTotalPriceAndNumOfItems(cartItems));
+    // }
+    useEffect(() => {
+        const getCartData = async() => {
+            const result = await getCartItems(token);
+            console.log("Inside getCartData()",result);
+            if (result && result.length > 0) {
+                console.log("Inside getCartData useEffect()",result)
+                //setStateValues(result);
+            }
+        } 
+       getCartData();
+       
+    },[]);
     
-    const handleDecrement = (item) => {
+    const handleDecrement = ({item}) => {
+        const shopItem = {item};
+        shopItem.authKey = token;
         if(item.count > 1) {
-            dispatch(decrement(item));
+            dispatch(decrement(shopItem));
         } else {
             dispatch(removeFromCart(item))
         }
     }
 
-    const handleIncrement = (item) => {
-        dispatch(increment(item));
+    const handleIncrement = ({item}) => {
+        console.log("inside handleIncrement-token", token)
+        const shopItem = {item};
+        shopItem.authKey = token;
+        console.log("shopItem", shopItem)
+        dispatch(increment(shopItem));
+    }
+ 
+    const handleCheckOut = (cartItems) => {
+        console.log("cartItems", cartItems)
+        const orderItems = [];
+        cartItems.forEach(cartItem => {
+            orderItems.push({prodID: cartItem.id, price: cartItem.price, quantity: cartItem.count})
+        });
+        console.log("Order items", orderItems)
+        dispatch(updateOrders(orderItems));
     }
 
     const renderItem = ({item} ) => (
@@ -55,13 +73,13 @@ function ShoppingCartScreen() {
                     </View>
                     <View style={styles.iconRow}>
                         <View>
-                            <AppButton onPress={() => handleIncrement(item)} icon="add-circle" color="green" size={20}/>
+                            <AppButton onPress={() => handleIncrement({item})} icon="add-circle" color="green" size={20}/>
                         </View>
                         <View>
                             <Text>Quantity: {item.count}</Text>
                         </View>
                         <View>
-                            <AppButton onPress={() => handleDecrement(item)} icon="remove-circle" color="green" size={20}/>
+                            <AppButton onPress={() => handleDecrement({item})} icon="remove-circle" color="green" size={20}/>
                         </View>
                     </View>
                 </View> 
@@ -97,7 +115,7 @@ function ShoppingCartScreen() {
                 )}
                 {cartItems.length > 0 ? (<View style={styles.buttonContainer}>
                     <View style={styles.button}>
-                        <AppButton icon="wallet"  color="white" size={20} title="Check Out"/>
+                        <AppButton onPress={() => handleCheckOut(cartItems)} icon="wallet"  color="white" size={20} title="Check Out"/>
                     </View>
                 </View>):""}
             </View>

@@ -6,7 +6,7 @@ import { fetchProduct } from "../model/data";
 import Loading from "../components/Loading";
 import { useState, useEffect } from "react";
 import colors from "../constants/Colors";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from "../cart/cartSlice";
 
 function ProductDetailScreen({route}) {
@@ -16,7 +16,7 @@ function ProductDetailScreen({route}) {
     const [loading, setLoading] = useState(true);
 
     const navigation = useNavigation();
-
+    const key = useSelector(state => state.auth.authenticationKey);
     useEffect(() => {
         const loadProduct = async () => {
             const data = await fetchProduct(productItemId);
@@ -37,6 +37,7 @@ function ProductDetailScreen({route}) {
    
    const handleAddToCartPress = () => {
         console.log("Inside handleAddToCartPress() ", product)
+        product.token = key;
         dispatch(addToCart(product));
    }
     return(

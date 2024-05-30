@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 function SplashScreen() {
     const navigation = useNavigation();
     useEffect(() => {
-            navigation.navigate("CategoryScreen");
+            navigation.navigate("UserProfileScreen");
       }, []);
 } 
 
