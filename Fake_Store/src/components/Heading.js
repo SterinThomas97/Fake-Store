@@ -13,7 +13,7 @@ export default Heading;
 const styles = StyleSheet.create({
     headingContainer: {
         margin: 20,
-        flex: 0.1,
+       padding: 20,
         borderColor: 'black',
         borderWidth: 1,
         backgroundColor: 'blue',

@@ -2,12 +2,14 @@ import {createSlice} from '@reduxjs/toolkit';
 import { updateCart } from '../service/cartService';
 import { createNewOrder } from '../service/orderService';
 import { useSelector } from 'react-redux';
+import { Alert } from 'react-native';
 
 export const initialState = {
+    orders: [],
     shoppingCartItems: [],
     numberOfItems: 0,
     totalPrice: 0,
-    orders: []
+    numberOfOrders : 0
 }; 
 //const token = useSelector(state => state.auth.authenticationKey);
 
@@ -77,23 +79,33 @@ const cartSlice = createSlice({
             });
         },
         updateOrders: (state, action) => {
-            
+            console.log("updateOrders", state)
             console.log("Inside updateOrders()", action.payload);
-            state.orders.push(action.payload);
+            const data = createNewOrder(action.payload.token, action.payload.orderItems);
+            //state.orders.push(action.payload.orderItems);
             state.shoppingCartItems = [];
             state.numberOfItems = 0;
             state.totalPrice = 0;
-            updateCart(state.shoppingCartItems);
-            createNewOrder(action.payload);
+            state.numberOfOrders += 1;
+            updateCart(action.payload.token, state.shoppingCartItems);
 
         },
         setOrders: (state, action) => {
             console.log("Inside setOrders()",action.payload);
             state.orders = action.payload;
             //console.log(state.orders.length)
+        },
+        setNumberOfOrders: (state, action) => {
+            console.log("Inside setNumberOfOrders ", action);
+            state.numberOfOrders = action.payload.length;
+            state.orders = action.payload;
+        }
+        ,
+        setOrdersState: (state, action) => {
+            state.orders = action.payload;
         }
     },
 });
 
-export const { addToCart, increment, decrement, removeFromCart, setShoppingCartItems, setOrders, setTotalPriceAndNumOfItems, updateOrders} = cartSlice.actions;
+export const { setOrdersState,setNumberOfOrders, addToCart, increment, decrement, removeFromCart, setShoppingCartItems, setOrders, setTotalPriceAndNumOfItems, updateOrders} = cartSlice.actions;
 export default cartSlice.reducer; 

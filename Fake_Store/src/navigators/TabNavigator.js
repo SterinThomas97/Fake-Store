@@ -15,7 +15,7 @@ const TabNavigator = () => {
   const authKey = useSelector(state => state.auth.authenticationKey);
   const numberOfItems = useSelector(state => state.cart.numberOfItems);
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
-  const numberOfOrders = useSelector(state => state.cart.orders.length);
+  const numberOfOrders = useSelector(state => state.cart.numberOfOrders);
   const handleTabPress = (e, route) => {
     if (!isLoggedIn && route.name !== 'User Profile') {
       e.preventDefault();

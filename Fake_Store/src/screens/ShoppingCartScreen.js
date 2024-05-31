@@ -51,12 +51,13 @@ function ShoppingCartScreen() {
  
     const handleCheckOut = (cartItems) => {
         console.log("cartItems", cartItems)
-        const orderItems = [];
+        const checkout = {orderItems:[], token: null};
         cartItems.forEach(cartItem => {
-            orderItems.push({prodID: cartItem.id, price: cartItem.price, quantity: cartItem.count})
+            checkout.orderItems.push({prodID: cartItem.id, price: cartItem.price, quantity: cartItem.count, image: cartItem.image, title: cartItem.title})
         });
-        console.log("Order items", orderItems)
-        dispatch(updateOrders(orderItems));
+        checkout.token = token;
+        console.log("Order items", checkout.orderItems)
+        dispatch(updateOrders(checkout));
     }
 
     const renderItem = ({item} ) => (

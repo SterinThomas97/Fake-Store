@@ -8,6 +8,7 @@ export const updateCart = async(token,items) => {
     const url = `http://${server}:${port}/cart`;
     const cartItems = {items};
     console.log("Inside updateCart()", cartItems)
+    console.log("Inside updateCart() ssss", JSON.stringify(cartItems))
     try {
         const res = await fetch(url, {
             method: "PUT",
@@ -19,6 +20,7 @@ export const updateCart = async(token,items) => {
             body: JSON.stringify(cartItems)
         });
         const data = await res.json();
+        
         console.log("updateCart",data);
         return data;
     } catch (error) {
@@ -38,7 +40,8 @@ export const getCartItems = async(token) => {
             }
         });
         const data = await res.json();
-        console.log("getCartItems",data);
+       
+        console.log("getCartItems",(data));
         return data.items; 
     } catch (error) {
         throw new Error("Failed to load the cart items: "+ error);

@@ -5,11 +5,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../auth/authSlice';
 import { useNavigation } from "@react-navigation/native";
 import { getCartItems } from '../service/cartService';
-import { setShoppingCartItems, setTotalPriceAndNumOfItems } from '../cart/cartSlice';
+import { setNumberOfOrders, setShoppingCartItems, setTotalPriceAndNumOfItems } from '../cart/cartSlice';
+import { getMyOrders } from '../service/orderService';
 
 const SignInScreen = () => {
   const isAuthenticated = useSelector((state) => !!state.auth.authenticationKey);
-  //let [data, setData] = useState({name:"Sterib"});
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -26,6 +26,9 @@ const SignInScreen = () => {
     dispatch(setTotalPriceAndNumOfItems(cartItems));
 }
 
+const setOrderStateValues = (orders) => {
+    dispatch(setNumberOfOrders(orders));
+}
   const getCartData = async(token) => {
     const result = await getCartItems(token);
     if (result && result.length > 0) {
@@ -33,7 +36,14 @@ const SignInScreen = () => {
         setStateValues(result);
     }
 }
-
+    const getMyOrdersData = async(token) => {
+        const result = await getMyOrders(token);
+        console.log("Inside getMyOrdersData", result)
+        if (result && result.length > 0) {
+            setOrderStateValues(result);
+            //console.log("inside getMyOrdersData", result.orders[0].order_items[0])
+        }
+    }
     useEffect(() => {
     if (isAuthenticated) {
         console.log("Inside useEffect of signin screen")
@@ -47,10 +57,10 @@ const SignInScreen = () => {
     console.log(data);
     if (data.status === "OK") {
         await getCartData(data.token);
+        await getMyOrdersData(data.token);
         console.log('handleSignIn : User signed in:',data);
         userData = data;
         dispatch(login(data.token));
-        console.log("datadddddddddddddd", data);
         navigation.navigate("UserProfile", {data});
     } else if (data.status === "error") {
         Alert.alert(data.message);
