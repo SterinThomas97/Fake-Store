@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from "../auth/authSlice";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect } from "react";
+import { reset } from "../cart/cartSlice";
 
 const  UserProfile = () => {
     const route = useRoute();
@@ -18,7 +19,8 @@ const  UserProfile = () => {
     const navigation = useNavigation();
 
     const signOutHandler = () => {
-        dispatch(logout());   
+        dispatch(logout()); 
+        dispatch(reset());  
     }
 
     useEffect(() => {

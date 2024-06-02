@@ -29,7 +29,8 @@ function ShoppingCartScreen() {
     const handleDecrement = ({item}) => {
         const shopItem = {item};
         shopItem.authKey = token;
-        if(shopItem.count > 1) {
+        console.log(shopItem);
+        if(shopItem.item.count > 1) {
             dispatch(decrement(shopItem));
         } else {
             dispatch(removeFromCart(shopItem))

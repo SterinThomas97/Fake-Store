@@ -54,17 +54,20 @@ export const getMyOrders = async(token) => {
             }
         });
         const data = await res.json();
-        const parsedOrders = data.orders.map(order => {
-            try {
-                return {
-                    ...order,
-                    order_items: JSON.parse(order.order_items)
-                };
-            } catch (error) {
-                console.error('Error parsing order_items:', error);
-            }
-        });
-        return parsedOrders;
+        if (data.orders) {
+            const parsedOrders = data.orders.map(order => {
+                try {
+                    return {
+                        ...order,
+                        order_items: JSON.parse(order.order_items)
+                    };
+                } catch (error) {
+                    console.error('Error parsing order_items:', error);
+                }
+            });
+            return parsedOrders;
+        }
+        
     } catch(error) {
         throw new Error("Failed to load the orders "+ error);
     }

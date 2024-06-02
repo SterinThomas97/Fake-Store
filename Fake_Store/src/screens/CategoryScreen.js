@@ -45,7 +45,7 @@ function CategoryScreen() {
 
     return (
         <SafeAreaView style={styles.container}>
-          <Heading title="Categories"/>
+          <Heading title="Product Categories"/>
           <View style={styles.categoryList}>
             <FlatList
                   data={categories}
@@ -53,6 +53,7 @@ function CategoryScreen() {
                   keyExtractor={(category) => category}
                 />
           </View>
+          <Text>Sterin Thomas</Text>
         </SafeAreaView>
       );
 }

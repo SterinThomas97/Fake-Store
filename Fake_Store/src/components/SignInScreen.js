@@ -37,6 +37,7 @@ const setOrderStateValues = (orders) => {
 }
     const getMyOrdersData = async(token) => {
         const result = await getMyOrders(token);
+        console.log("result", result);
         if (result && result.length > 0) {
             setOrderStateValues(result);
         }

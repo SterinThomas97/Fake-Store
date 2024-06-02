@@ -1,4 +1,4 @@
-import { View, Text, Image, StyleSheet, SafeAreaView } from "react-native";
+import { View, Text, Image, StyleSheet, SafeAreaView, ScrollView } from "react-native";
 import Heading from "../components/Heading";
 import AppButton from "../components/AppButton";
 import { useNavigation } from '@react-navigation/native';
@@ -72,9 +72,9 @@ function ProductDetailScreen({route}) {
                         <View style={styles.descriptionContainer}>
                             <Text style={styles.description}>Description:</Text>
                         </View>
-                        <View style={styles.descriptionBox}> 
+                        <ScrollView style={styles.descriptionBox}> 
                             <Text style={styles.descriptionContent}>{product.description}</Text>
-                        </View>
+                        </ScrollView>
                 </View>
             </View>  
             
