@@ -36,7 +36,6 @@ function ProductDetailScreen({route}) {
    }
    
    const handleAddToCartPress = () => {
-        console.log("Inside handleAddToCartPress() ", product)
         product.token = key;
         dispatch(addToCart(product));
    }

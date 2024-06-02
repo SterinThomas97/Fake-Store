@@ -32,33 +32,26 @@ const setOrderStateValues = (orders) => {
   const getCartData = async(token) => {
     const result = await getCartItems(token);
     if (result && result.length > 0) {
-        console.log("Inside getCartData useEffect()",result)
         setStateValues(result);
     }
 }
     const getMyOrdersData = async(token) => {
         const result = await getMyOrders(token);
-        console.log("Inside getMyOrdersData", result)
         if (result && result.length > 0) {
             setOrderStateValues(result);
-            //console.log("inside getMyOrdersData", result.orders[0].order_items[0])
         }
     }
     useEffect(() => {
     if (isAuthenticated) {
-        console.log("Inside useEffect of signin screen")
-        console.log(data)
         navigation.navigate("UserProfile", {data});
     }
   }, [isAuthenticated, navigation]);
   
   const handleSignIn = async() => {
     data = await signinUser({email, password});
-    console.log(data);
     if (data.status === "OK") {
         await getCartData(data.token);
         await getMyOrdersData(data.token);
-        console.log('handleSignIn : User signed in:',data);
         userData = data;
         dispatch(login(data.token));
         navigation.navigate("UserProfile", {data});
@@ -109,8 +102,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    
-   
     padding: 20,
   },
   header: {
@@ -120,7 +111,6 @@ const styles = StyleSheet.create({
    
   },
   input: {
-    
     padding: 15,
     marginVertical: 10,
     borderWidth: 1,

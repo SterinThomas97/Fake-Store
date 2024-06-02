@@ -10,9 +10,6 @@ const Stack = createNativeStackNavigator();
 
 const UserProfileStackNavigator = () => {
   const isAuthenticated = useSelector((state) => !!state.auth.authenticationKey);
-
-  console.log("Inside UserProfileStackNavigator ", !isAuthenticated, isAuthenticated);
-
   return (
     <Stack.Navigator>
       {!isAuthenticated ? (

@@ -11,9 +11,8 @@ function ExpandedOrders({ order, name, size, color }) {
                 <Text style={styles.valueColor}>Items: {order.item_numbers}</Text>
             </View>
             <View>
-                <Text style={styles.valueColor}>Total: {order.total_price}</Text>
+                <Text style={styles.valueColor}>Total: ${order.total_price}</Text>
             </View>
-           
                 <Ionicons name={name} size={size} color={color} />
             
         </View>

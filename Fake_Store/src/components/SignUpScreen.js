@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import { signUpUser } from '../service/authService';
+import { useDispatch } from 'react-redux';
+import { login } from '../auth/authSlice';
 
 const SignUpScreen = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const handleClear = () => {
     setUsername('');
@@ -16,11 +19,9 @@ const SignUpScreen = () => {
   };
 
   const handleSignUp = async() => {
-    console.log("Inside handleSignUp()", username, email, password)
     const data = await signUpUser(username, email, password );
-    console.log("Inside handleSignUp() ", data);
     if (data.status === "OK") {
-        console.log("user signed up successfully");
+        dispatch(login(data.token));
         navigation.navigate("UserProfile", {data});
     } else if (data.status === "error") {
         Alert.alert(data.message);

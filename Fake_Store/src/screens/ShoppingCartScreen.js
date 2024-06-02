@@ -1,11 +1,11 @@
-import { View, Text, FlatList, SafeAreaView, StyleSheet, Image } from "react-native";
+import { View, Text, FlatList, SafeAreaView, StyleSheet, Image, Alert } from "react-native";
 import { useSelector } from 'react-redux';
 import AppButton from "../components/AppButton";
 import { useDispatch } from 'react-redux';
-import { increment, decrement, removeFromCart, setShoppingCartItems, setTotalPriceAndNumOfItems, updateOrders} from '../cart/cartSlice';
+import { increment, decrement, removeFromCart, updateOrders} from '../cart/cartSlice';
 import Heading from "../components/Heading";
 import colors from "../constants/Colors";
-import { useEffect, useState } from "react";
+import { useEffect} from "react";
 import { getCartItems } from "../service/cartService";
 
 function ShoppingCartScreen() {
@@ -14,17 +14,12 @@ function ShoppingCartScreen() {
     const totalNumberOfItems = useSelector(state => state.cart.numberOfItems);
     const totalPrice = useSelector(state => state.cart.totalPrice);
     const dispatch = useDispatch();
-    // const setStateValues = (cartItems) => {
-    //     dispatch(setShoppingCartItems(cartItems));
-    //     dispatch(setTotalPriceAndNumOfItems(cartItems));
-    // }
+    
     useEffect(() => {
         const getCartData = async() => {
             const result = await getCartItems(token);
-            console.log("Inside getCartData()",result);
             if (result && result.length > 0) {
                 console.log("Inside getCartData useEffect()",result)
-                //setStateValues(result);
             }
         } 
        getCartData();
@@ -34,30 +29,27 @@ function ShoppingCartScreen() {
     const handleDecrement = ({item}) => {
         const shopItem = {item};
         shopItem.authKey = token;
-        if(item.count > 1) {
+        if(shopItem.count > 1) {
             dispatch(decrement(shopItem));
         } else {
-            dispatch(removeFromCart(item))
+            dispatch(removeFromCart(shopItem))
         }
     }
 
     const handleIncrement = ({item}) => {
-        console.log("inside handleIncrement-token", token)
         const shopItem = {item};
         shopItem.authKey = token;
-        console.log("shopItem", shopItem)
         dispatch(increment(shopItem));
     }
  
     const handleCheckOut = (cartItems) => {
-        console.log("cartItems", cartItems)
         const checkout = {orderItems:[], token: null};
         cartItems.forEach(cartItem => {
             checkout.orderItems.push({prodID: cartItem.id, price: cartItem.price, quantity: cartItem.count, image: cartItem.image, title: cartItem.title})
         });
         checkout.token = token;
-        console.log("Order items", checkout.orderItems)
         dispatch(updateOrders(checkout));
+        Alert.alert("Checkout successfully. New order is created.")
     }
 
     const renderItem = ({item} ) => (

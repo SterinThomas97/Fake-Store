@@ -22,7 +22,6 @@ const UpdateUserProfileScreen = () => {
   }, [data]);
 
   const handleCancel = () => {
-    // Handle cancel action
     setUserName('');
     setPassword('');
   };
@@ -32,9 +31,7 @@ const UpdateUserProfileScreen = () => {
   }
 
   const confirmHandler = async(name, password) => {
-    console.log("name", name) 
         const res = await updateUserProfile({token, name, password});
-        console.log(res)
         if (res.status === "OK") {
             Alert.alert("Username and Password updated successfully.")
             data.name = res.name;

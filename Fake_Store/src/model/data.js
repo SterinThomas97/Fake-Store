@@ -1,6 +1,7 @@
 export async function fetchCategories() {
     try {
         const response = await fetch('https://fakestoreapi.com/products/categories');
+        console.log("ddd",response)
         if (!response.ok) {
           throw new Error('Failed to fetch categories'); 
         }

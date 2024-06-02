@@ -1,5 +1,3 @@
-import { useSelector } from "react-redux";
-
 const server = 'localhost';
 const port = 3000;
 

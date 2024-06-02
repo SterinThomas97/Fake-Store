@@ -1,11 +1,7 @@
-import { useSelector } from "react-redux";
-
 const server = 'localhost';
 const port = 3000;
 
-
 export const signinUser = async({email, password}) => {
-    //const token = useSelector(state => state.auth.authenticationKey);
     const url = `http://${server}:${port}/users/signin`;
     const user = { email, password};
     try {
@@ -25,7 +21,6 @@ export const signinUser = async({email, password}) => {
 }
 
 export const updateUserProfile = async({token, name, password}) => {
-    //const token = useSelector(state => state.auth.authenticationKey);
     const url = `http://${server}:${port}/users/update`;
     const user = {name, password};
     try {
@@ -47,7 +42,6 @@ export const updateUserProfile = async({token, name, password}) => {
 export const signUpUser = async(name, email, password) =>{
     const url = `http://${server}:${port}/users/signup`;
     const user = { name, email, password };
-    console.log("Inside signUpUser()", user);
     try {
         const res = await fetch(url, {
             method: "POST",

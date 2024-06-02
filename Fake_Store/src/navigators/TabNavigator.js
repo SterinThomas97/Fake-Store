@@ -1,4 +1,3 @@
-// TabNavigator.js
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -6,7 +5,6 @@ import ShoppingCartScreen from '../screens/ShoppingCartScreen';
 import MainStackNavigator from './MainStackNavigator';
 import { useSelector } from 'react-redux';
 import MyOrdersScreen from '../screens/MyOrdersScreen';
-import UserProfileScreen from '../screens/UserProfileScreen';
 import { Alert } from 'react-native';
 import UserProfileStackNavigator from './UserProfileStackNavigator';
 

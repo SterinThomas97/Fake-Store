@@ -1,25 +1,25 @@
 import { View, Text, StyleSheet, Image } from "react-native";
-function ExpandedOrdersItems({item}) {
 
+function ExpandedOrdersItems({order}) {
     return (
         <View style={styles.productContainer}>
-        <View style={styles.productImageContainer}>
-            <Image source={{uri: item.image}} style={styles.image}/>
-        </View>
-        <View style={styles.productDetails}>
-            <View style={styles.productTitle}>
-                <Text>{item.title}</Text>
+            <View style={styles.productImageContainer}>
+                <Image source={{uri: order.image}} style={styles.image}/>
             </View>
-            <View>
-                <Text>Price: ${item.price}</Text>
-            </View>
-            <View style={styles.iconRow}>
-                <View>
-                    <Text>Quantity: {item.quantity}</Text>
+            <View style={styles.productDetails}>
+                <View style={styles.productTitle}>
+                    <Text>{order.title}</Text>
                 </View>
-            </View>
-        </View> 
-</View>
+                <View>
+                    <Text>Price: ${order.price}</Text>
+                </View>
+                <View style={styles.iconRow}>
+                    <View>
+                        <Text>Quantity: {order.quantity}</Text>
+                    </View>
+                </View>
+            </View> 
+        </View>
     )
 }
 

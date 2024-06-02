@@ -18,14 +18,11 @@ const  UserProfile = () => {
     const navigation = useNavigation();
 
     const signOutHandler = () => {
-        dispatch(logout());
-        //navigation.navigate("SignInScreen");
-        
+        dispatch(logout());   
     }
 
     useEffect(() => {
         if (!isAuthenticated) {
-            console.log("Inside useEffect of userprofile screen")
           navigation.navigate('SignInScreen');
         }
       }, [isAuthenticated, navigation]);
@@ -78,7 +75,6 @@ const styles = StyleSheet.create({
         fontSize: 17
     },
     userNameValue: {
-        
         fontSize: 17
     },
     button: {
